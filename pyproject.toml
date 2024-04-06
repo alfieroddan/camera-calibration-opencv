@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opencv_calibrate"
+version = "0.1.0"
+authors = [
+    {name = "Alfie"},
+]
+description = "A simple OpenCV checkerboard camera calibration python package"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "opencv-python", "numpy", "tqdm", "argparse", "ffmpeg-python",
+    "pillow", "pillow_heif", "pyyaml"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/alfieroddan/camera-calibration-opencv"
+"Bug Tracker" = "https://github.com/alfieroddan/camera-calibration-opencv/issues"
+
+[tool.setuptools]
+packages = ["opencv_calibrate"]
