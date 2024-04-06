@@ -19,18 +19,19 @@ This package relies on ffmpeg, please ensure it is installed. See [python ffmpeg
 import opencv_calibrate
 
 # image
-image_directory_path = "/path/to/dir/"
+image_directory_path = "example_images/"
 
 # image params
-camera_parameters = opencv_calibrate.video(video_path)
+checkerboard = (10, 7)
+ret, camera_parameters = opencv_calibrate.image(image_directory_path, checkerboard)
 
-# or video
+# or with video
 
 # video
 video_path = "/path/to/video"
 
 # video params
-camera_parameters = opencv_calibrate.image(image_directory_path)
+ret, camera_parameters = opencv_calibrate.video(video_path)
 ```
 
 Then we can acess the parameters in the camera_parameters object:
@@ -50,12 +51,34 @@ translation_vecs = camera_parameters.translation_vecs
 
 # projection error
 projection_error = camera_parameters.projection_error
+
+# save parameters
+camera_parameters.save("/path/to/dir/")
+
+# load
+from opencv_calibrate import CameraParameters
+# from npz
+camera_parameters.load_from_npz("/path/to/params.npz")
+# from yaml
+camera_parameters.load_from_yaml("/path/to/params.yaml")
 ```
 
 or from the command line:
 
 ```bash
-calibrate -h
+calibrate [-h] [--video VIDEO] [--image_dir IMAGE_DIR] [--output_dir OUTPUT_DIR] [--checkerboard CHECKERBOARD]
+
+Camera calibration of videos and images containing checkerboard run with DEBUG>1 for more outputs
+
+options:
+  -h, --help            show this help message and exit
+  --video VIDEO         Path to the video file
+  --image IMAGE_DIR
+                        Path to the directory containing images
+  --output_dir OUTPUT_DIR
+                        Path to the output directory
+  --checkerboard CHECKERBOARD
+                        Number of rows and columns in comma seperated format e.g. "9, 6"
 ```
 
 This will output a YAML file with the parameters:
@@ -70,8 +93,8 @@ distortion_matrix:
 projection_error: float
 ```
 
-Example:
+Run with DEBUG environment variable for more outputs, e.g.
 
-```yaml
-
+```bash
+DEBUG=1 calibrate --image /path/to/images
 ```

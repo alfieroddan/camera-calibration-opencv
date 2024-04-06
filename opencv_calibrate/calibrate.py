@@ -11,7 +11,7 @@ import argparse
 # local imports
 from opencv_calibrate.io import video_to_numpy, image_dir_to_numpy
 from opencv_calibrate.camera import CameraParameters
-from debug import DEBUG
+from opencv_calibrate.debug import DEBUG
 
 # vision imports
 import cv2
@@ -162,7 +162,7 @@ def main() -> None:
 
     parser.add_argument('--video', type=str,
                         help='Path to the video file')
-    parser.add_argument('--image_dir', type=str,
+    parser.add_argument('--image', type=str,
                         help='Path to the directory containing images')
     parser.add_argument('--output_dir', type=str, default=".",
                         required=False, help='Path to the output directory')
@@ -173,7 +173,7 @@ def main() -> None:
     args = parser.parse_args()
 
     # Validate arguments
-    if not args.video and not args.image_dir:
+    if not args.video and not args.image:
         parser.error('Either --video or --image_dir must be provided')
 
     if not os.path.exists(args.output_dir):
@@ -192,11 +192,11 @@ def main() -> None:
             print(f"Processing video: {args.video}")
         ret, camera_params = video_calibration(
             args.video, args.checkerboard)
-    elif args.image_dir:
+    elif args.image:
         if DEBUG > 0:
-            print(f'Processing images in directory: {args.image_dir}')
+            print(f'Processing images in directory: {args.image}')
         ret, camera_params = image_calibration(
-            args.image_dir, args.checkerboard)
+            args.image, args.checkerboard)
 
     # check if params found
     assert ret, "Calibration params not found. Run with DEBUG>3?"

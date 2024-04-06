@@ -28,3 +28,6 @@ classifiers = [
 
 [tool.setuptools]
 packages = ["opencv_calibrate"]
+
+[project.scripts]
+calibrate = "opencv_calibrate.calibrate:main"

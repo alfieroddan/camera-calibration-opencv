@@ -15,7 +15,7 @@ class CameraParameters:
     distortion_matrix: np.array
     rotation_vecs: Tuple[np.array] | None
     translation_vecs: Tuple[np.array] | None
-    projection_error: float
+    projection_error: float | None
 
     def save(self, path: str) -> bool:
         # save raw in numpy
@@ -58,7 +58,7 @@ class CameraParameters:
 
         # make sure keys are found
         for k in data.keys():
-            assert k in needed_keys, f"{k} not in loaded camera matrix\n,\
+            assert k in needed_keys, f"{k} not in loaded camera params\n,\
                                         need: {needed_keys}"
 
         # return initialized camera parameters
@@ -68,4 +68,38 @@ class CameraParameters:
             rotation_vecs=data["rotation_vecs"],
             translation_vecs=data["translation_vecs"],
             projection_error=data["projection_error"]
+        )
+
+    @staticmethod
+    def load_from_yaml(path: str) -> "CameraParameters":
+        """
+        Load camera parameters.
+        Input str: path to yaml
+        Ouput CameraParameters
+        """
+        needed_keys = [
+            "camera_matrix",
+            "distortion_matrix",
+        ]
+        # Read YAML file
+        with open(path, 'r') as file:
+            data = yaml.safe_load(file)
+
+        if DEBUG > 1:
+            print("Loading CameraParameters:")
+            print(f"Class params: {needed_keys}")
+            print(f"Loaded keys: {data.keys()}")
+
+        # make sure keys are found
+        for k in data.keys():
+            assert k in needed_keys, f"{k} not in loaded camera params\n,\
+                                        need: {needed_keys}"
+
+        # return initialized camera parameters
+        return CameraParameters(
+            camera_matrix=data["camera_matrix"],
+            distortion_matrix=data["distortion_matrix"],
+            rotation_vecs=data.get("rotation_vecs", None),
+            translation_vecs=data.get("translation_vecs", None),
+            projection_error=data.get("projection_error", None)
         )
