@@ -93,6 +93,8 @@ distortion_matrix:
 projection_error: float
 ```
 
+and a .npz numpy file with addition of the extrinsic matrix.
+
 Run with DEBUG environment variable for more outputs, e.g.
 
 ```bash
