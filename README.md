@@ -1,6 +1,8 @@
 # OpenCV Camera Calibration
 
-A simple tool for checkerboard camera calibration if you are tired of re-writing from the [OpenCV docs](todo) on camera calibration.
+![Checkerboard calibration images](assets/checkerboards.gif "Calibration")
+
+A simple tool for checkerboard camera calibration if you are tired of re-writing from the [OpenCV docs](https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html) on camera calibration.
 
 # Install
 
@@ -10,7 +12,7 @@ pip install opencv_calibrate
 
 ## Prerequisites
 
-This package relies on ffmpeg, please ensure it is installed. See [python ffmpeg](todo) for more.
+This package relies on ffmpeg, please ensure it is installed. See [python ffmpeg](https://github.com/kkroening/ffmpeg-python) for more.
 
 # Usage
 
