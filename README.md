@@ -7,8 +7,10 @@ A simple tool for checkerboard camera calibration if you are tired of re-writing
 # Install
 
 ```bash
-pip install opencv_calibrate 
+pip install opencv-calibrate 
 ```
+
+[pypi](https://pypi.org/project/opencv-calibrate/0.1.0/)
 
 ## Prerequisites
 
