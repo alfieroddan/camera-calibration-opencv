@@ -1,6 +1,6 @@
 # OpenCV Camera Calibration
 
-![Checkerboard calibration images](assets/checkerboards.gif "Calibration")
+![Checkerboard calibration images](assets/smaller_checkerboards.gif "Calibration")
 
 A simple tool for checkerboard camera calibration if you are tired of re-writing from the [OpenCV docs](https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html) on camera calibration.
 
