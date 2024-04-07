@@ -65,7 +65,7 @@ camera_parameters.load_from_npz("/path/to/params.npz")
 camera_parameters.load_from_yaml("/path/to/params.yaml")
 ```
 
-or from the command line:
+or from the command line (this is also callable by `python -m opencv_calibrate.calibrate`):
 
 ```bash
 calibrate [-h] [--video VIDEO] [--image_dir IMAGE_DIR] [--output_dir OUTPUT_DIR] [--checkerboard CHECKERBOARD]
