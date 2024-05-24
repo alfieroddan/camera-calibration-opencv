@@ -25,7 +25,8 @@ CRITERIA = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 def calibrate_numpy(array: np.array,
                     p_r: int,
-                    p_c: int) -> tuple[bool, CameraParameters | None]:
+                    p_c: int,
+                    p_s: int) -> tuple[bool, CameraParameters | None]:
     """
     Camera calibration from numpy array,
     images can sometimes not contain checkerboard
@@ -43,7 +44,7 @@ def calibrate_numpy(array: np.array,
     """
     # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....
     objp = np.zeros((p_r*p_c, 3), np.float32)
-    objp[:, :2] = np.mgrid[0:p_r, 0:p_c].T.reshape(-1, 2)
+    objp[:, :2] = np.mgrid[0:p_r, 0:p_c].T.reshape(-1, 2) * p_s
     # Arrays to store object points and image points from all the images.
     objpoints = []  # 3d point in real world space
     imgpoints = []  # 2d points in image plane.
@@ -121,13 +122,13 @@ def video_calibration(video_file: str,
     calibrate_numpy (fn)
     """
     # points row, points columsn
-    p_r, p_c = checkerboard[0] - 1, checkerboard[1] - 1
+    p_r, p_c, p_s = checkerboard[0] - 1, checkerboard[1] - 1, checkerboard[2]
 
     # convert video to numpy
     frames = video_to_numpy(video_file)
 
     # calibrate
-    return calibrate_numpy(frames, p_r, p_c, fast=False)
+    return calibrate_numpy(frames, p_r, p_c, p_s)
 
 
 def image_calibration(image_dir: str,
@@ -145,14 +146,14 @@ def image_calibration(image_dir: str,
     calibrate_numpy (fn)
     """
     # points row, points columns
-    p_r, p_c = checkerboard[0] - 1, checkerboard[1] - 1
+    p_r, p_c, p_s = checkerboard[0] - 1, checkerboard[1] - 1, checkerboard[2]
 
     frames = image_dir_to_numpy(image_dir)
     if len(frames) < 11 and DEBUG > 0:
         print("Low number of images, expect around 11\
                       for good calibration")
 
-    return calibrate_numpy(frames, p_r, p_c)
+    return calibrate_numpy(frames, p_r, p_c, p_s)
 
 
 def main() -> None:
@@ -167,8 +168,9 @@ def main() -> None:
     parser.add_argument('--output_dir', type=str, default=".",
                         required=False, help='Path to the output directory')
     parser.add_argument('--checkerboard', default="9, 6",
-                        help='Number of rows and columns \
-                            in comma seperated format e.g. "9, 6"', type=str)
+                        help='Number of rows, columns and square size (mm) \
+                            in comma seperated format e.g. "9, 6, 4"',
+                        type=str)
 
     args = parser.parse_args()
 
@@ -181,7 +183,7 @@ def main() -> None:
 
     # conver checkerboard to list
     args.checkerboard = [int(item) for item in args.checkerboard.split(',')]
-    assert len(args.checkerboard) == 2, "Checkerboard row and column must be 2"
+    assert len(args.checkerboard) == 3, "Checkerboard row and column must be 3"
 
     if DEBUG > 0:
         print(f"Checkerboard size: {args.checkerboard}")

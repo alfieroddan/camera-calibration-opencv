@@ -82,7 +82,7 @@ options:
   --output_dir OUTPUT_DIR
                         Path to the output directory
   --checkerboard CHECKERBOARD
-                        Number of rows and columns in comma seperated format e.g. "9, 6"
+                        Number of rows, columns and square size (mm) in comma seperated format e.g. "9, 6, 4"
 ```
 
 This will output a YAML file with the parameters:
